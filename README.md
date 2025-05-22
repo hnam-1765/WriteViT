@@ -1,6 +1,17 @@
  # WriteViT: Handwritten Text Generation with Vision Transformer
 
+  <p align='center'>
+  <b>
+    <a href="https://arxiv.org/abs/2505.13235">ArXiv</a>
+    | 
+    <a href="https://arxiv.org/pdf/2303.15269">Paper</a>
+  </b>
+</p> 
+
  
+ <p align="center">
+<img src=Figures/Architecture.png width="500"/>
+</p>
 
 <!-- 
 <img src="Figures/Result.gif" width="800"/>
