@@ -4,7 +4,7 @@
   <b>
     <a href="https://arxiv.org/abs/2505.13235">ArXiv</a>
     | 
-    <a href="https://arxiv.org/pdf/2303.15269">Paper</a>
+    <a href="https://arxiv.org/pdf/2505.13235">Paper</a>
   </b>
 </p> 
 
