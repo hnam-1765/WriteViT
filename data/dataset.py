@@ -120,28 +120,7 @@ class TextDataset:
             imgs_wids.append(img_width)
 
         imgs_pad = torch.cat(imgs_pad, 0)
-        Img_ip = np.zeros((32, 512), dtype="float32") + 255
-        white = np.zeros((32, 16), dtype="float32") + 255
-        outImg_2 = np.zeros((32, 512), dtype="float32") + 255
-        idx = 0
-        idx_2 = 0
-        for img in imgs:
-            img_height, img_width = img.shape[0], img.shape[1]
-            if (idx + img_width + 16) > 512:
-                if (idx_2 + img_width + 16) > 512:
-                    break
-                outImg_2[:, idx_2 : idx_2 + img_width] = img
-                idx_2 += img_width
-                if (idx_2 + 16) < 512:
-                    outImg_2[:, idx_2 : idx_2 + 16] = white
-                    idx_2 += 16
-                continue
-            Img_ip[:, idx : idx + img_width] = img
-            idx += img_width
-            if (idx + 16) < 512:
-                Img_ip[:, idx : idx + 16] = white
-                idx += 16
-        img2line = np.concatenate((Img_ip, outImg_2), axis=0)
+        
 
         item = {
             "simg": imgs_pad,
@@ -151,7 +130,7 @@ class TextDataset:
             "img_path": "img_path",
             "idx": "indexes",
             "wcl": author_idx,
-            "real_img": torch.tensor(img2line).unsqueeze(0),
+         
         }
 
         return item
@@ -229,29 +208,7 @@ class TextDatasetval:
             imgs_wids.append(img_width)
 
         imgs_pad = torch.cat(imgs_pad, 0)
-        Img_ip = np.zeros((32, 512), dtype="float32") + 255
-        white = np.zeros((32, 16), dtype="float32") + 255
-        outImg_2 = np.zeros((32, 512), dtype="float32") + 255
-        idx = 0
-        idx_2 = 0
-        for img in imgs:
-            img_height, img_width = img.shape[0], img.shape[1]
-            if (idx + img_width + 16) > 512:
-                if (idx_2 + img_width + 16) > 512:
-                    break
-                outImg_2[:, idx_2 : idx_2 + img_width] = img
-                idx_2 += img_width
-                if (idx_2 + 16) < 512:
-                    outImg_2[:, idx_2 : idx_2 + 16] = white
-                    idx_2 += 16
-                continue
-            Img_ip[:, idx : idx + img_width] = img
-            idx += img_width
-            if (idx + 16) < 512:
-                Img_ip[:, idx : idx + 16] = white
-                idx += 16
-        img2line = np.concatenate((Img_ip, outImg_2), axis=0)
-
+        
         item = {
             "simg": imgs_pad,
             "swids": imgs_wids,
@@ -260,7 +217,7 @@ class TextDatasetval:
             "img_path": "img_path",
             "idx": "indexes",
             "wcl": author_idx,
-            "real_img": torch.tensor(img2line).unsqueeze(0),
+       
         }
 
         return item
@@ -276,7 +233,7 @@ class TextCollator(object):
         width = [item["img"].shape[2] for item in batch]
         indexes = [item["idx"] for item in batch]
         simgs = torch.stack([item["simg"] for item in batch], 0)
-        img_ip = torch.stack([item["real_img"] for item in batch], 0)
+     
         wcls = torch.Tensor([item["wcl"] for item in batch])
         swids = torch.Tensor([item["swids"] for item in batch])
         imgs = torch.ones(
@@ -300,7 +257,7 @@ class TextCollator(object):
             "simg": simgs,
             "swids": swids,
             "wcl": wcls,
-            "real_img": img_ip,
+       
         }
         if "label" in batch[0].keys():
             labels = [item["label"] for item in batch]
