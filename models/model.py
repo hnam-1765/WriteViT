@@ -17,7 +17,7 @@ from data.dataset import TextDataset, TextDatasetval
 import shutil
 from .OCR import ViT_OCR
 from .Generator import Generator
-from .Writter import Writer, strLabelConverter
+from .Writer import Writer, strLabelConverter
  
 
 class WriteViT(nn.Module):
@@ -216,7 +216,7 @@ class WriteViT(nn.Module):
         return self.real_base, self.fake_base
 
     def _generate_page(
-        self, img, ST, wcl, SLEN, eval_text_encode=None, eval_len_text=None
+        self, img, ST, wcl,SLEN, eval_text_encode=None, eval_len_text=None
     ):
 
         if eval_text_encode == None:
@@ -224,7 +224,7 @@ class WriteViT(nn.Module):
         if eval_len_text == None:
             eval_len_text = self.eval_len_text
 
-        feat_w, _ = self.netW(img.detach(), wcl)
+        feat_w = self.netW(img.detach(), wcl,training=False)
         
         self.fakes = self.netG.Eval(feat_w, eval_text_encode)
 
@@ -283,14 +283,43 @@ class WriteViT(nn.Module):
 
             line_wids = []
 
-            gap_h = np.ones([16, 512])
+            sdata_ = [i.unsqueeze(1) for i in torch.unbind(ST, 1)]
+
+            for idx, st in enumerate((sdata_)):
+
+                word_t.append(
+                    (
+                        st[batch_idx, 0, :, : int(SLEN.cpu().numpy()[batch_idx][idx])]
+                        .cpu()
+                        .numpy()
+                        + 1
+                    )
+                    / 2
+                )
+
+                word_t.append(gap)
+
+                if len(word_t) == 16 or idx == len(sdata_) - 1:
+
+                    line_ = np.concatenate(word_t, -1)
+
+                    word_l.append(line_)
+                    line_wids.append(line_.shape[1])
+
+                    word_t = []
+
+            gap_h = np.ones([16, max(line_wids)])
 
             page_ = []
 
-            page_.append(ST[batch_idx, 0, :, :].cpu().numpy() / 255)
-            page_.append(gap_h)
+            for l in word_l:
 
-            page2 = np.concatenate(page_, axis=0)
+                pad_ = np.ones([IMG_HEIGHT, max(line_wids) - l.shape[1]])
+
+                page_.append(np.concatenate([l, pad_], 1))
+                page_.append(gap_h)
+
+            page2 = np.concatenate(page_, 0)
 
             merge_w_size = max(page1.shape[0], page2.shape[0])
 
@@ -376,7 +405,7 @@ class WriteViT(nn.Module):
 
         self.real = self.input["img"].to(DEVICE)
         self.label = self.input["label"]
-        self.sdata = self.input["real_img"].to(DEVICE)
+        self.sdata = self.input["img"].to(DEVICE)
         self.ST_LEN = self.input["swids"]
         self.text_encode, self.len_text = self.netconverter.encode(self.label)
 
@@ -516,8 +545,6 @@ class WriteViT(nn.Module):
         self.optimizer_D.zero_grad()
         self.optimizer_OCR.zero_grad()
         self.optimizer_wl.zero_grad()
-
- 
 
     def optimize_G_only(self):
         self.forward()

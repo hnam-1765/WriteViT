@@ -1,17 +1,12 @@
 import os
-
+import time
+import wandb
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 #os.environ["WANDB_API_KEY"] = ""
-
-from pathlib import Path
-import time
+ 
 from data.dataset import TextDataset, TextDatasetval
-import torch
-import os
 from models.model import WriteViT
 from params import *
-from torch import nn
-import wandb
 
 def main():
 
@@ -25,19 +20,19 @@ def main():
                 batch_size=batch_size,
                 shuffle=True,
                 num_workers=0,
-                pin_memory=True, drop_last=True,
+                pin_memory=True, drop_last=False,
                 collate_fn=TextDatasetObj.collate_fn)
 
     TextDatasetObjval = TextDatasetval(num_examples = NUM_EXAMPLES)
     datasetval = torch.utils.data.DataLoader(
                 TextDatasetObjval,
                 batch_size=batch_size,
-                shuffle=True,
+                shuffle=False,
                 num_workers=0,
-                pin_memory=True, drop_last=True,
+                pin_memory=True, drop_last=False,
                 collate_fn=TextDatasetObjval.collate_fn)
 
-    model = WriteViT()
+    model = WriteViT().to(DEVICE)
 
     os.makedirs('saved_models', exist_ok = True)
     MODEL_PATH = os.path.join('saved_models', EXP_NAME)
@@ -66,28 +61,29 @@ def main():
                 model._set_input(data)
                 model.optimize_D_OCR_W()
                 model.optimize_D_OCR_W_step()
-                print(1)
+               
 
 
         end_time = time.time()
-        data_val = next(iter(datasetval))
+        
         losses = model.get_current_losses()
-        page = model._generate_page(model.sdata, model.input['swids'])
-        page_val = model._generate_page(data_val['simg'].to(DEVICE), data_val['swids'])
+        
+        data_val = next(iter(datasetval))
+        page_val = model._generate_page(data_val['img'].to(DEVICE), data_val['simg'].to(DEVICE) ,data_val['wcl'].to(DEVICE),data_val['swids'].to(DEVICE))
 
         
-        wandb.log({'loss-G': losses['G'],
-                    'loss-D': losses['D'], 
-                    'loss-Dfake': losses['Dfake'],
-                    'loss-Dreal': losses['Dreal'],
-                    'loss-OCR_fake': losses['OCR_fake'],
-                    'loss-OCR_real': losses['OCR_real'],
-                    'loss-w_fake': losses['w_fake'],
-                    'loss-w_real': losses['w_real'],
-                    'epoch' : epoch,
-                    'timeperepoch': end_time-start_time,
-                    "result":[wandb.Image(page, caption="page"),wandb.Image(page_val, caption="page_val")],
-                    })
+        # wandb.log({'loss-G': losses['G'],
+        #             'loss-D': losses['D'], 
+        #             'loss-Dfake': losses['Dfake'],
+        #             'loss-Dreal': losses['Dreal'],
+        #             'loss-OCR_fake': losses['OCR_fake'],
+        #             'loss-OCR_real': losses['OCR_real'],
+        #             'loss-w_fake': losses['w_fake'],
+        #             'loss-w_real': losses['w_real'],
+        #             'epoch' : epoch,
+        #             'timeperepoch': end_time-start_time,
+        #             "result":[wandb.Image(page_val*255, caption="page_val")],
+        #             })
 
                     
  

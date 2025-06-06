@@ -31,15 +31,15 @@ To visualize generated handwriting during training, you can modify the settings 
 
 
 
-Download Dataset files and model from https://drive.google.com/drive/folders/1ZgYS6-6l6fjKY75RJipONBByujIgf-uE?usp=sharing
+Download Dataset files and model from [dataset and checkpoint](https://drive.google.com/drive/folders/1ZgYS6-6l6fjKY75RJipONBByujIgf-uE?usp=sharing)
 
 Quick setup with terminal:
 
 ```bash
-git https://github.com/hnam-1765/WriteViT.git
+git clone https://github.com/hnam-1765/WriteViT.git
 cd WriteViT
 pip install --upgrade --no-cache-dir gdown
-gdown --id 1ZgYS6-6l6fjKY75RJipONBByujIgf-uE && unzip files.zip && rm files.zip
+gdown --id 1D_aT7CKEufR87pbfK-fF4wCr3cca6jAg && unzip ckpt.zip && rm ckpt.zip
 ```
 
 To train the model
@@ -74,17 +74,16 @@ The dataset is organized as a dictionary containing lists of writer samples
 
 
 ## Handwriting reconstruction results
- Reconstruction results.
+ 
 
  <p align="center">
 <img src=Figures/Reconstruction.png width="1000"/>
 </p>
 
-<!-- 
-<img src="Figures/result.jpg" >
+## Acknowledgements
 
-<img src="Figures/recons2.jpg" >
- -->
+A large portion of codes in this repo is based on:[Handwriting-Transformers](https://github.com/ankanbhunia/Handwriting-Transformers) by Ankan Bhunia et al.
 
+We thank the authors for open-sourcing their work, which has been instrumental in developing this project.
 
  

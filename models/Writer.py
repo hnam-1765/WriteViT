@@ -77,7 +77,7 @@ class Writer(nn.Module):
             nn.init.constant_(m.bias, 0)
             nn.init.constant_(m.weight, 1.0)
 
-    def forward(self, x, y):
+    def forward(self, x, y = None,training=True):
 
         x = self.layer_norm(x)
         x = self.patch(x)
@@ -97,9 +97,11 @@ class Writer(nn.Module):
         x = self.avgpool(x.transpose(1, 2))  # B C 1
         x = torch.flatten(x, 1)
         output = self.head(x)
-        output = self.cross_entropy(output, y.long())
-
-        return feature, output
+        if training:
+            output = self.cross_entropy(output, y.long())
+            return feature, output
+        else:
+            return feature
     
 
 
