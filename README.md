@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2505.13235"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2505.13235-b31b1b.svg"></a>
   <a href="https://colab.research.google.com/drive/15Lswqr-aQwI-fF6yRoGYt-2pxSlC2L-R"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"></a>
+  <a href="https://huggingface.co/DAIR-Group/WriteViT"><img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-Model%20%26%20Artifacts-ffcc4d?logo=huggingface&amp;logoColor=black"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
 </p>
 
@@ -18,7 +19,8 @@ WriteViT is a one-shot handwritten text synthesis framework for learning a write
 
 - [Paper](https://arxiv.org/abs/2505.13235)
 - [Interactive demo](https://colab.research.google.com/drive/15Lswqr-aQwI-fF6yRoGYt-2pxSlC2L-R)
-- [Datasets and checkpoints](https://drive.google.com/drive/folders/1ZgYS6-6l6fjKY75RJipONBByujIgf-uE?usp=sharing)
+- [Hugging Face release: model, datasets, checkpoints, and code](https://huggingface.co/DAIR-Group/WriteViT)
+- [Google Drive mirror: datasets and checkpoints](https://drive.google.com/drive/folders/1ZgYS6-6l6fjKY75RJipONBByujIgf-uE?usp=sharing)
 
 ## Installation
 
@@ -38,15 +40,40 @@ Install the PyTorch build appropriate for your CUDA version if the default packa
 
 ## Data and checkpoints
 
-Download the prepared datasets and checkpoints from the link above, then place the dataset pickle files in `File/`. The default IAM configuration expects:
+The prepared datasets and released checkpoints are available on Hugging Face:
+
+```bash
+git lfs install
+git clone https://huggingface.co/DAIR-Group/WriteViT
+cd WriteViT
+```
+
+If you only need the artifacts for this GitHub codebase, download the Hugging Face release or the Google Drive mirror and place the files under `File/`. The default IAM configuration expects:
 
 ```text
 File/
 ├── IAM.pickle
+├── VN.pickle
+├── eng_ckpt.pth
+├── vn_ckpt.pth
+├── vgg19.pth
 ├── english_words.txt
 ├── vn_words.txt
 └── unifont.pickle
 ```
+
+Released artifact summary:
+
+| File | Description |
+| --- | --- |
+| `File/eng_ckpt.pth` | English/IAM checkpoint |
+| `File/vn_ckpt.pth` | Vietnamese checkpoint |
+| `File/vgg19.pth` | VGG19 backbone checkpoint/resource |
+| `File/IAM.pickle` | Prepared IAM dataset pickle |
+| `File/VN.pickle` | Prepared Vietnamese dataset pickle |
+| `File/unifont.pickle` | Font/template data used for query rendering |
+| `File/english_words.txt` | English lexicon |
+| `File/vn_words.txt` | Vietnamese lexicon |
 
 The prepared dataset is a dictionary split by writer:
 
