@@ -4,14 +4,19 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2505.13235"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2505.13235-b31b1b.svg"></a>
+  <a href="https://doi.org/10.1016/j.eswa.2026.133742"><img alt="DOI" src="https://img.shields.io/badge/DOI-10.1016%2Fj.eswa.2026.133742-0077b5.svg"></a>
   <a href="https://colab.research.google.com/drive/15Lswqr-aQwI-fF6yRoGYt-2pxSlC2L-R"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"></a>
   <a href="https://huggingface.co/DAIR-Group/WriteViT"><img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-Model%20%26%20Artifacts-ffcc4d?logo=huggingface&amp;logoColor=black"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
 </p>
 
-## About
+<p align="center">
+  Dang Hoai Nam &middot; Huynh Tong Dang Khoa &middot; Vo Nguyen Le Duy
+  <br>
+  Published in <a href="https://doi.org/10.1016/j.eswa.2026.133742"><em>Expert Systems with Applications</em></a> (2026)
+</p>
 
-WriteViT is a one-shot handwritten text synthesis framework that learns a writer's style from reference handwriting and generates new word images in the same style. It combines a ViT-based writer encoder, a multi-scale Transformer generator with conditional positional encoding, and a lightweight ViT recognizer, with support for both English and Vietnamese handwriting.
+WriteViT is a one-shot handwritten text synthesis framework for learning a writer's style from a small set of reference images. It combines a ViT-based writer encoder, a multi-scale Transformer generator with conditional positional encoding, and a lightweight ViT recognizer. The project supports both English and Vietnamese handwriting generation.
 
 <p align="center">
   <img src="Figures/architecture.png" alt="WriteViT architecture" width="900">
