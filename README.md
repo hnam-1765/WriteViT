@@ -140,11 +140,13 @@ WriteViT/
 If you use WriteViT in your research, please cite:
 
 ```bibtex
-@article{nam2025writevit,
-  title   = {WriteViT: Handwritten Text Generation with Vision Transformer},
-  author  = {Dang Hoai Nam and Huynh Tong Dang Khoa and Vo Nguyen Le Duy},
-  journal = {arXiv preprint arXiv:2505.13235},
-  year    = {2025}
+@article{nam2026writevit,
+  title={WriteViT: Handwritten Text Generation with Vision Transformer},
+  author={Nam, Dang Hoai and Khoa, Huynh Tong Dang and Le Duy, Vo Nguyen},
+  journal={Expert Systems with Applications},
+  pages={133742},
+  year={2026},
+  publisher={Elsevier}
 }
 ```
 
